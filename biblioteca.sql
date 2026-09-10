@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03-Set-2026 às 15:24
+-- Tempo de geração: 10-Set-2026 às 15:06
 -- Versão do servidor: 10.4.22-MariaDB
 -- versão do PHP: 8.1.2
 
@@ -17,13 +17,11 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
--- Garantir que o banco exista e usar o banco correto antes de criar tabelas
-CREATE DATABASE IF NOT EXISTS `biblioteca` DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-USE `biblioteca`;
-
 --
 -- Banco de dados: `biblioteca`
 --
+CREATE DATABASE IF NOT EXISTS `biblioteca` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `biblioteca`;
 
 -- --------------------------------------------------------
 
@@ -38,6 +36,14 @@ CREATE TABLE `livros` (
   `ano_publicacao` year(4) NOT NULL,
   `disponivel` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `livros`
+--
+
+INSERT INTO `livros` (`id`, `titulo`, `autor`, `ano_publicacao`, `disponivel`) VALUES
+(1, 'as cronicas de nanoian', 'joau gular', 2012, 1),
+(2, 'O Hobbitn', 'jJ. R. R. Tolkien', 1937, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -57,7 +63,7 @@ ALTER TABLE `livros`
 -- AUTO_INCREMENT de tabela `livros`
 --
 ALTER TABLE `livros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
