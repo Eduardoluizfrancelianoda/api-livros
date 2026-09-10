@@ -17,6 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+-- Garantir que o banco exista e usar o banco correto antes de criar tabelas
+CREATE DATABASE IF NOT EXISTS `biblioteca` DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+USE `biblioteca`;
+
 --
 -- Banco de dados: `biblioteca`
 --

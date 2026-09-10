@@ -1,28 +1,18 @@
-from pydantic import field_validator
+from collections.abc import Generator
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import create_engine
-from sqlalchemy.orm import DeclarativeBase, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 
 class Configuracoes(BaseSettings):
     db_user: str
-    db_password: str = ""
+    db_password: str
     db_host: str = "localhost"
     db_port: int = 3306
     db_name: str
 
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        extra="ignore",
-    )
-
-    @field_validator("db_user", "db_password", "db_host", "db_name", mode="before")
-    @classmethod
-    def limpar_valores_ambiente(cls, valor):
-        if isinstance(valor, str):
-            return valor.strip().strip('"').strip("'")
-        return valor
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 
 configuracoes = Configuracoes()
@@ -38,3 +28,12 @@ criar_sessao = sessionmaker(bind=mecanismo_banco, autoflush=False, autocommit=Fa
 
 class BaseBanco(DeclarativeBase):
     pass
+
+
+def obter_sessao_banco() -> Generator[Session, None, None]:
+    sessao_banco = criar_sessao()
+
+    try:
+        yield sessao_banco
+    finally:
+        sessao_banco.close()
