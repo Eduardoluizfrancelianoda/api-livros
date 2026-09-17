@@ -73,3 +73,20 @@ def atualizar_livro(
     sessao_banco.refresh(livro)
 
     return livro
+
+@app.delete("/livros/{id_livro}", tags=["Livros"])
+def excluir_livro(
+    id_livro: int,
+    sessao_banco: Session = Depends(obter_sessao_banco),
+):
+    consulta = select(Livro).where(Livro.id == id_livro)
+    resultado = sessao_banco.execute(consulta)
+    livro = resultado.scalar_one_or_none()
+
+    if livro is None:
+        raise HTTPException(status_code=404, detail="Livro não encontrado")
+
+    sessao_banco.delete(livro)
+    sessao_banco.commit()
+
+    return {"mensagem": "Livro excluído com sucesso"}
